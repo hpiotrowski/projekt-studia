@@ -4,7 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 
-// Pages
+
 import HomePage from './pages/HomePage';
 import CarsPage from './pages/CarsPage';
 import ReservationPage from './pages/ReservationPage';
@@ -13,7 +13,7 @@ import LoginPage from './pages/LoginPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-// Create theme
+
 const theme = createTheme({
   palette: {
     primary: {
