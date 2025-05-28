@@ -67,6 +67,10 @@ const formatPublicKey = (cert) => {
 
 fetchPublicKeys().catch(console.error);
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];

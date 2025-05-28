@@ -23,13 +23,12 @@ exports.getMyReservations = async (req, res) => {
             order: [['createdAt', 'DESC']]
         });
 
-        // Format the response with proper number handling
+        
         const formattedReservations = reservations.map(reservation => {
             const plainReservation = reservation.get({ plain: true });
             return {
                 ...plainReservation,
                 Car: plainReservation.Car,
-                // Ensure totalPrice is a valid number
                 totalPrice: Number(plainReservation.totalPrice).toFixed(2)
             };
         });
@@ -57,7 +56,7 @@ exports.createReservation = async (req, res) => {
 
         const totalPrice = Number(car.dailyRate) * days;
 
-        // Get user ID from token
+      
         const userId = req.auth.sub;
 
         const reservation = await Reservation.create({
@@ -65,11 +64,11 @@ exports.createReservation = async (req, res) => {
             userId,
             startDate,
             endDate,
-            totalPrice: totalPrice.toFixed(2), // Ensure proper decimal format
+            totalPrice: totalPrice.toFixed(2), 
             status: 'PENDING'
         });
 
-        // Fetch the created reservation with car details
+
         const reservationWithCar = await Reservation.findByPk(reservation.id, {
             include: [{
                 model: Car,

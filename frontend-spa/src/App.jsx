@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, createTheme, Box } from '@mui/material';
 import { AuthProvider } from './contexts/AuthContext';
@@ -10,6 +11,7 @@ import CarsPage from './pages/CarsPage';
 import ReservationPage from './pages/ReservationPage';
 import ReservationsPage from './pages/ReservationsPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -38,6 +40,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/cars" element={<CarsPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 
                 {/* Protected Routes */}

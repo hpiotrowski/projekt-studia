@@ -32,7 +32,7 @@ exports.createCar = async (req, res) => {
     } catch (error) {
         console.error('Error creating car:', error);
         
-        // Szczegółowe logowanie błędów walidacji
+       
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({
                 message: 'Validation error',
@@ -61,7 +61,7 @@ exports.updateCar = async (req, res) => {
     } catch (error) {
         console.error('Error updating car:', error);
         
-        // Szczegółowe logowanie błędów walidacji
+      
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({
                 message: 'Validation error',

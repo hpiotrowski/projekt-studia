@@ -23,8 +23,11 @@ services:
     command: start-dev
     depends_on:
       - keycloak-db
+    networks:
+      - auth-network
+      - app-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      test: ["CMD-SHELL", "timeout 5 bash -c 'echo > /dev/tcp/127.0.0.1/8080' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -38,6 +41,13 @@ services:
       POSTGRES_PASSWORD: keycloak
     volumes:
       - ./volumes/keycloak-db:/var/lib/postgresql/data
+    networks:
+      - auth-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   resource-server:
     build: ./resource-server
@@ -47,6 +57,14 @@ services:
     depends_on:
       - db
       - keycloak
+    networks:
+      - app-network
+      - db-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:5001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   frontend-spa:
     build: ./frontend-spa
@@ -56,6 +74,13 @@ services:
     depends_on:
       - resource-server
       - keycloak
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   frontend-ssr:
     build: ./frontend-ssr
@@ -65,6 +90,13 @@ services:
     depends_on:
       - resource-server
       - keycloak
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   backend2backend-client:
     build: ./b2b-client
@@ -78,6 +110,13 @@ services:
     depends_on:
       - resource-server
       - keycloak
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   db:
     image: postgres:16
@@ -90,7 +129,21 @@ services:
       - ./volumes/car-rental-db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rental"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
-  default:
+  auth-network:
     driver: bridge
+    name: car-rental-auth
+  app-network:
+    driver: bridge
+    name: car-rental-app
+  db-network:
+    driver: bridge
+    name: car-rental-db

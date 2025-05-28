@@ -1,5 +1,6 @@
+import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
@@ -12,15 +13,15 @@ const Navbar = () => {
           Car Rental App
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button color="inherit" component={RouterLink} to="/">
+          <Button color="inherit" component={Link} to="/">
             Home
           </Button>
-          <Button color="inherit" component={RouterLink} to="/cars">
+          <Button color="inherit" component={Link} to="/cars">
             Cars
           </Button>
           {isAuthenticated ? (
             <>
-              <Button color="inherit" component={RouterLink} to="/reservations">
+              <Button color="inherit" component={Link} to="/reservations">
                 My Reservations
               </Button>
               <Button color="inherit" onClick={logout}>
@@ -28,9 +29,14 @@ const Navbar = () => {
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={login}>
-              Login
-            </Button>
+            <>
+              <Button color="inherit" component={Link} to="/register">
+                Register
+              </Button>
+              <Button color="inherit" onClick={login}>
+                Login
+              </Button>
+            </>
           )}
         </Box>
       </Toolbar>

@@ -1,5 +1,6 @@
+import React from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const HomePage = () => {
@@ -19,7 +20,7 @@ const HomePage = () => {
           <Button 
             variant="contained" 
             color="primary" 
-            component={RouterLink} 
+            component={Link} 
             to="/cars" 
             sx={{ mr: 2 }}
           >

@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Container, Typography, Box, CircularProgress, Alert,
   Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Button, Chip
+  TableHead, TableRow, Button, Chip, Card, CardContent, Grid, Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import { reservationApi } from '../services/api';
+import { format } from 'date-fns';
+import { useAuth } from '../contexts/AuthContext';
 
 const getStatusColor = (status) => {
   switch (status) {
@@ -31,7 +33,7 @@ const ReservationsPage = () => {
   useEffect(() => {
     if (location.state?.success) {
       setSuccess(location.state.success);
-      // Clear the message from location state
+    
       window.history.replaceState({}, document.title);
     }
   }, [location]);

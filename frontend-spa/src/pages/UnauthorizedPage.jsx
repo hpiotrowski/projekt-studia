@@ -1,4 +1,5 @@
-import { Container, Typography, Button, Box } from '@mui/material';
+import React from 'react';
+import { Container, Typography, Button, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const UnauthorizedPage = () => {

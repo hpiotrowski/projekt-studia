@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Container, Typography, Grid, Card, CardContent, 
-  CardMedia, CardActions, Button, Box, CircularProgress 
+  CardMedia, CardActions, Button, Box, CircularProgress, Alert
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { carApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { carApi } from '../services/api';
 
 const CarsPage = () => {
   const [cars, setCars] = useState([]);

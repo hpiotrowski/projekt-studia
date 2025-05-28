@@ -1,13 +1,25 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  Container, Typography, Box, TextField, Button, 
-  Paper, Grid, CircularProgress, Alert 
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  Box,
+  Grid,
+  TextField,
+  Alert,
+  CircularProgress,
+  Paper
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { carApi, reservationApi } from '../services/api';
+import { format, differenceInDays, addDays } from 'date-fns';
 import { useAuth } from '../contexts/AuthContext';
+import { carApi, reservationApi } from '../services/api';
 
 const ReservationPage = () => {
   const { carId } = useParams();

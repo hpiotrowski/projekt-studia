@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Container, Typography, Box, Button, Paper } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Container, Typography, Box, Button, Paper, Alert } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import keycloak from '../services/keycloak';
 
-const LoginPage = () => {
-  const { isAuthenticated, loading, login } = useAuth();
+const RegisterPage = () => {
+  const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,15 +15,20 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, loading, navigate]);
 
+  const handleRegister = () => {
+    
+    keycloak.register();
+  };
+
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
       <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Login to Car Rental App
+          Create an Account
         </Typography>
         
         <Typography variant="body1" sx={{ mb: 4 }}>
-          Please login to make reservations and manage your account.
+          Register to start making car reservations and manage your bookings.
         </Typography>
         
         <Box sx={{ mt: 3 }}>
@@ -30,23 +36,23 @@ const LoginPage = () => {
             variant="contained"
             color="primary"
             size="large"
-            onClick={login}
+            onClick={handleRegister}
             disabled={loading}
             fullWidth
           >
-            {loading ? 'Loading...' : 'Login with Keycloak'}
+            {loading ? 'Loading...' : 'Register with Keycloak'}
           </Button>
         </Box>
 
         <Box sx={{ mt: 3 }}>
           <Typography variant="body2" color="text.secondary">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <Button 
               color="primary" 
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/login')}
               sx={{ textTransform: 'none' }}
             >
-              Register here
+              Login here
             </Button>
           </Typography>
         </Box>
@@ -55,4 +61,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage; 
+export default RegisterPage; 
