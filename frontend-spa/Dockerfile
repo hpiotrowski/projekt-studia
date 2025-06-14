@@ -1,13 +1,16 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci && npm cache clean --force
+
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
-
+COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 
 EXPOSE 3000
-
 
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
